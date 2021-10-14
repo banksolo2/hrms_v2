@@ -64,9 +64,55 @@ class HolidayRepositoryTest {
 
     @Test
     void existByName() {
+        //given
+        String name = "Christmas";
+
+        //when
+        boolean result = underTest.existByName(name);
+
+        //then
+        assertThat(result).isTrue();
     }
 
     @Test
     void existByNameOnUpdate() {
+        //given
+        String name = "Christmas";
+        Holiday h = underTest.findByName(name);
+        h.setName("Testing");
+
+        //when
+        boolean result = underTest.existByNameOnUpdate(h.getId(),h.getName());
+
+        //then
+        assertThat(result).isFalse();
+    }
+
+    @Test
+    void existByDateAt(){
+        //given
+        String dateText = "2021-12-25";
+        Date dateAt = Date.valueOf(dateText);
+
+        //when
+        boolean result = underTest.existByDateAt(dateAt);
+
+        //then
+        assertThat(result).isTrue();
+    }
+
+    @Test
+    void existByDateAtOnUpdate(){
+        //given
+        Holiday h = underTest.findByName("Christmas");
+        Date dateAt = Date.valueOf("2021-12-27");
+        h.setDateAt(dateAt);
+
+        //when
+        boolean result = underTest.existByDateAtOnUpdate(h.getId(), h.getDateAt());
+
+        //then
+        assertThat(result).isFalse();
+
     }
 }

@@ -9,8 +9,8 @@ import java.sql.Date;
 @Table(
         name = "holidays",
         uniqueConstraints = @UniqueConstraint(
-                name = "holiday_name_unique",
-                columnNames = "name"
+                name = "holiday_date_at_unique",
+                columnNames = "date_at"
         )
 )
 @AllArgsConstructor
