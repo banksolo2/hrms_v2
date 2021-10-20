@@ -1,5 +1,6 @@
 package com.bankstech.hrms.service;
 
+import com.bankstech.hrms.format.Word;
 import com.bankstech.hrms.model.Branch;
 import com.bankstech.hrms.model.ResponseMessage;
 import com.bankstech.hrms.repository.BranchRepository;
@@ -15,6 +16,7 @@ public class BranchService {
 
     private BranchRepository branchRepository;
     private long millis=System.currentTimeMillis();
+    private Word w = new Word();
 
     @Autowired
     public BranchService(BranchRepository branchRepository){
@@ -22,7 +24,7 @@ public class BranchService {
     }
 
     public ResponseMessage create(Branch branch){
-        branch.setCode(branch.getName().trim().toLowerCase().replace(" ","_"));
+        branch.setCode(w.getCode(branch.getName()));
         branch.setCreatedAt(new Date(millis));
 
         //check if name already exist
@@ -47,7 +49,7 @@ public class BranchService {
     }
 
     public ResponseMessage update(Branch branch){
-        branch.setCode(branch.getName().trim().toLowerCase().replace(" ", "_"));
+        branch.setCode(w.getCode(branch.getName()));
         branch.setUpdatedAt(new Date(millis));
 
         //check if name already exist

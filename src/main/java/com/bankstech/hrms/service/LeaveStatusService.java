@@ -1,5 +1,6 @@
 package com.bankstech.hrms.service;
 
+import com.bankstech.hrms.format.Word;
 import com.bankstech.hrms.model.LeaveStatus;
 import com.bankstech.hrms.model.ResponseMessage;
 import com.bankstech.hrms.repository.LeaveStatusRepository;
@@ -14,13 +15,15 @@ public class LeaveStatusService {
 
     private LeaveStatusRepository leaveStatusRepository;
 
+    private Word w = new Word();
+
     @Autowired
     public LeaveStatusService(LeaveStatusRepository leaveStatusRepository){
         this.leaveStatusRepository = leaveStatusRepository;
     }
 
     public ResponseMessage create(LeaveStatus leaveStatus){
-        leaveStatus.setCode(leaveStatus.getName().trim().toLowerCase().replace(" ", "_"));
+        leaveStatus.setCode(w.getCode(leaveStatus.getName()));
 
         //Check if name already exist
         boolean isNameExist = leaveStatusRepository.existByName(leaveStatus.getName());
@@ -43,7 +46,7 @@ public class LeaveStatusService {
     }
 
     public ResponseMessage update(LeaveStatus leaveStatus){
-        leaveStatus.setCode(leaveStatus.getName().toLowerCase().replace(" ", "_"));
+        leaveStatus.setCode(w.getCode(leaveStatus.getName()));
         //check if name already exist
         boolean isNameExist = leaveStatusRepository.existByNameOnUpdate(leaveStatus.getId(), leaveStatus.getName());
         if(isNameExist){

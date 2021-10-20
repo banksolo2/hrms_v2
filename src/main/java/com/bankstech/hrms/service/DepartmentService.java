@@ -1,5 +1,6 @@
 package com.bankstech.hrms.service;
 
+import com.bankstech.hrms.format.Word;
 import com.bankstech.hrms.model.Department;
 import com.bankstech.hrms.model.ResponseMessage;
 import com.bankstech.hrms.repository.DepartmentRepository;
@@ -14,6 +15,7 @@ public class DepartmentService {
 
     private DepartmentRepository departmentRepository;
     private long millis=System.currentTimeMillis();
+    private Word w = new Word();
 
     @Autowired
     public DepartmentService(DepartmentRepository departmentRepository){
@@ -21,7 +23,7 @@ public class DepartmentService {
     }
 
     public ResponseMessage create(Department department){
-        department.setCode(department.getName().trim().toUpperCase().replace(" ","_"));
+        department.setCode(w.getCode(department.getName()));
         department.setCreatedAt(new Date(millis));
 
         //check if department name already exist
@@ -45,7 +47,7 @@ public class DepartmentService {
     }
 
     public ResponseMessage update(Department department){
-        department.setCode(department.getName().trim().toUpperCase().replace(" ","_"));
+        department.setCode(w.getCode(department.getName()));
         department.setUpdatedAt(new Date(millis));
 
         //check if department name exist

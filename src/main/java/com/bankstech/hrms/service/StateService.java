@@ -1,5 +1,6 @@
 package com.bankstech.hrms.service;
 
+import com.bankstech.hrms.format.Word;
 import com.bankstech.hrms.model.ResponseMessage;
 import com.bankstech.hrms.model.State;
 import com.bankstech.hrms.repository.StateRepository;
@@ -11,14 +12,17 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@RequiredArgsConstructor
+
 @Service
 public class StateService {
 
-    private final StateRepository stateRepository;
+    @Autowired
+    private StateRepository stateRepository;
+
+    private Word w = new Word();
 
     public ResponseMessage create(State state){
-        state.setCode(state.getName().trim().toLowerCase().replace(" ", "_"));
+        state.setCode(w.getCode(state.getName()));
         //check if name already exist
         boolean isNameExist = stateRepository.isExistByName(state.getName());
         if(isNameExist) {
@@ -42,7 +46,7 @@ public class StateService {
     }
 
     public ResponseMessage update(State state){
-        state.setCode(state.getName().trim().toLowerCase().replace(" ", "_"));
+        state.setCode(w.getCode(state.getName()));
 
         //check if state name already exist
         boolean isStateExist = stateRepository.isExistByNameOnUpdate(state.getId(), state.getName());
